@@ -2,7 +2,7 @@ package simulation.entities;
 
 public class Plant extends Entity {
     private final int size;
-    public int weight;
+    private final int weight;
 
     public Plant(int size, int weight) {
         this.size = size;

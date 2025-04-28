@@ -10,7 +10,7 @@ public class AnimalCharacteristics {
     private final Map<String, Integer> FOOD;    // С какой вероятностью животное съедает "пищу"
 
     public AnimalCharacteristics(int size, int weight, int maxSpeed, int saturationWeight, Map<String, Integer> food) {
-        if (size > Settings.LOCATION_CAPACITY) {
+        if (size > Settings.LOCATION_ANIMALS_CAPACITY) {
             throw new IllegalArgumentException("Too big size for this simulation: " + size);
         }
         this.SIZE = size;

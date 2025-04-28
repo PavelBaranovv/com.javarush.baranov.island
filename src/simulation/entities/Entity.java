@@ -1,6 +1,15 @@
 package simulation.entities;
 
 public abstract class Entity {
-    abstract int getSize();
-    abstract int getWeight();
+    private boolean isAlive = true;
+
+    public abstract int getSize();
+    public abstract int getWeight();
+
+    public boolean isAlive() {
+        return isAlive;
+    };
+    void kill() {
+        isAlive = false;
+    };
 }

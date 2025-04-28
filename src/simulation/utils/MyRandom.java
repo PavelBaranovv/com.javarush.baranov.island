@@ -1,7 +1,6 @@
 package simulation.utils;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 public class MyRandom {
@@ -17,5 +16,12 @@ public class MyRandom {
 
     public static int getRandomInt(int left, int right) {
         return random.nextInt(left, right);
+    }
+
+    public static boolean eventExecution(int probability) {
+        if (probability > 100 || probability < 0) {
+            throw new IllegalArgumentException("Probability must be from 0 to 100");
+        }
+        return random.nextInt(100) + 1 <= probability;
     }
 }

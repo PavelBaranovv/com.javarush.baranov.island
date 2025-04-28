@@ -1,57 +1,55 @@
 package simulation;
 
-import simulation.entities.Animal;
-import simulation.entities.Entity;
-import simulation.exceptions.EntityPlaceException;
-import simulation.factories.AnimalFactory;
-import simulation.factories.PlantFactory;
-import simulation.utils.MyRandom;
-import simulation.utils.Settings;
+import simulation.entities.*;
+import simulation.factories.*;
+import simulation.utils.*;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 public class Location {
-    private AtomicInteger availableCapacity = new AtomicInteger();
-    private AtomicInteger plantsCount = new AtomicInteger();
+    private AtomicInteger availableAnimalCapacity = new AtomicInteger();
+    private AtomicInteger availablePlantCapacity = new AtomicInteger();
     private List<Entity> entities;
 
-    public Location(int capacity) {
-        this.availableCapacity.set(capacity);
+    public Location(int animalCapacity, int plantCapacity) {
+        this.availableAnimalCapacity.set(animalCapacity);
+        this.availablePlantCapacity.set(plantCapacity);
         entities = new CopyOnWriteArrayList<>();
     }
 
-    public void addAnimal(Animal animal) {
-        if (animal.getSize() > getAvailableCapacity()) {
-            throw new EntityPlaceException("Entity is too big for this location");
-        }
-        entities.add(animal);
-        availableCapacity.addAndGet(-animal.getSize());
-    }
 
     public void spawnRandomAnimals(int fullness) {
         if (fullness < 0 || fullness > 100) {
             throw new IllegalArgumentException("Fullness must be from 0 to zero");
         }
-        int needToFill = availableCapacity.get() * fullness / 100;
+        int needToFill = availableAnimalCapacity.get() * fullness / 100;
         AnimalFactory factory = new AnimalFactory();
         while (needToFill > 0) {
             Animal newAnimal = factory.produceRandomAnimal(needToFill);
             entities.add(newAnimal);
             needToFill -= newAnimal.getSize();
-            availableCapacity.addAndGet(-newAnimal.getSize());
+            availableAnimalCapacity.addAndGet(-newAnimal.getSize());
+            Statistics.getInstance().addAnimalsCount();
+
         }
     }
 
     public void growPlants(int count) {
         if (count < 0) throw new IllegalArgumentException("Count must be positive");
-        if (plantsCount.get() < Settings.MAX_PLANT_COUNT) {
-            PlantFactory factory = new PlantFactory();
-            for (int i = 0; i < count; i++) {
-                entities.add(factory.producePlant());
-                plantsCount.incrementAndGet();
+        PlantFactory factory = new PlantFactory();
+        for (int i = 0; i < count; i++) {
+            Plant plant = factory.producePlant();
+            if (availablePlantCapacity.get() < plant.getSize()) {
+                break;
             }
+            entities.add(plant);
+            availablePlantCapacity.addAndGet(-plant.getSize());
+            Statistics.getInstance().addPlantsCount();
         }
     }
 
@@ -60,7 +58,28 @@ public class Location {
         growPlants(count);
     }
 
-    public int getAvailableCapacity() {
-        return availableCapacity.get();
+    public void eatingTick() {
+        for (Entity e : entities) {
+            if (e instanceof Animal animal) {
+                Map<String, Integer> animalFood = animal.getFood();
+                List<Entity> potentialFood = entities.stream()
+                        .filter((entity) -> entity.isAlive() && animalFood.containsKey(entity.getClass().getSimpleName()))
+                        .collect(Collectors.toList());
+
+                Iterator<Entity> iterator = potentialFood.iterator();
+                while (!animal.isFull() && iterator.hasNext()) {
+                    Entity victim = iterator.next();
+                    int probability = animalFood.get(victim.getClass().getSimpleName());
+                    if (MyRandom.eventExecution(probability)) {
+                        animal.eat(victim);
+                        iterator.remove();
+                        if (victim instanceof Plant) availablePlantCapacity.addAndGet(victim.getWeight());
+                        else availableAnimalCapacity.addAndGet(victim.getWeight());
+                        Statistics.getInstance().addEating(victim);
+                    }
+
+                }
+            }
+        }
     }
 }

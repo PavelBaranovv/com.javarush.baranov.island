@@ -12,7 +12,7 @@ public class Island {
         locations = new Location[height][width];
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                locations[i][j] = new Location(Settings.LOCATION_CAPACITY);
+                locations[i][j] = new Location(Settings.LOCATION_ANIMALS_CAPACITY, Settings.LOCATION_PLANTS_CAPACITY);
             }
         }
     }
@@ -20,7 +20,7 @@ public class Island {
     public Island(int width, int height, int animalFullness, int plantsFullness) {
         this(width, height);
         spawnRandomAnimals(animalFullness);
-        growPlantsRandom(plantsFullness);
+        growPlants(plantsFullness);
     }
 
 
@@ -32,10 +32,26 @@ public class Island {
         }
     }
 
+    public void growPlants(int maxCount) {
+        for (Location[] row : locations) {
+            for (Location location : row) {
+                location.growPlants(maxCount);
+            }
+        }
+    }
+
     public void growPlantsRandom(int maxCount) {
         for (Location[] row : locations) {
             for (Location location : row) {
                 location.randomPlantsGrow(maxCount);
+            }
+        }
+    }
+
+    public void eatingTick() {
+        for (Location[] row : locations) {
+            for (Location location : row) {
+                location.eatingTick();
             }
         }
     }

@@ -4,22 +4,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Settings {
-    public static final int ISLAND_WIDTH = 5;                // Ширина острова
-    public static final int ISLAND_HEIGHT = 5;               // Высота острова
+    public static final int ISLAND_WIDTH = 5;                  // Ширина острова
+    public static final int ISLAND_HEIGHT = 5;                 // Высота острова
 
-    public static final int LOCATION_CAPACITY = 1000;        // Вместимость одной локации
-    public static final int MAX_PLANT_COUNT = 200;           // Максимальное количество растений на одной локации
+    public static final int LOCATION_ANIMALS_CAPACITY = 1000;   // Вместимость животных на одной локации
+    public static final int LOCATION_PLANTS_CAPACITY = 1000;    // Вместимость растений на одной локации
 
 
-    public static final int START_ANIMAL_FULLNESS = 50;      // Заполненность животными в начале симуляции (0% - 100%)
-    public static final int START_PLANT_FULLNESS = 50;       // Заполненность растениями в начале симуляции (0% - 100%)
+    public static final int START_ANIMAL_FULLNESS = 50;         // Заполненность животными в начале симуляции (0% - 100%)
+    public static final int START_PLANT_FULLNESS = 80;         // Заполненность растениями в начале симуляции (0% - 100%)
 
-    public static final int MAX_EVERYDAY_GROWING_COUNT = 5;  // Максимальный прирост растений в одной локации за 1 день
+    public static final int MAX_EVERYDAY_GROWING_COUNT = 5;    // Максимальный прирост растений в одной локации за 1 день
 
     // Ниже заданы основные характеристики всех сущностей.
 
     public static final int PLANT_SIZE = 1;
-    public static final int PLANT_WEIGHT = 1;
+    public static final int PLANT_WEIGHT = 2;
 
     private static final Map<String, Integer> WOLF_FOOD = new HashMap<>() {{
         put("Horse", 10);
@@ -125,7 +125,7 @@ public class Settings {
         put("Sheep", new AnimalCharacteristics(70, 140, 3, 15, SHEEP_FOOD));
         put("Boar", new AnimalCharacteristics(90, 50, 2, 50, BOAR_FOOD));
         put("Buffalo", new AnimalCharacteristics(100, 10, 3, 100, BUFFALO_FOOD));
-        put("Duck", new AnimalCharacteristics(3, 200, 4, 1, DUCK_FOOD));
-        put("Caterpillar", new AnimalCharacteristics(1, 1000, 0, 0, CATERPILLAR_FOOD));
+        put("Duck", new AnimalCharacteristics(3, 5, 4, 1, DUCK_FOOD));
+        put("Caterpillar", new AnimalCharacteristics(1, 2, 0, 0, CATERPILLAR_FOOD));
     }};
 }
