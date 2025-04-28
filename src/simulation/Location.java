@@ -3,7 +3,10 @@ package simulation;
 import simulation.entities.Animal;
 import simulation.entities.Entity;
 import simulation.exceptions.EntityPlaceException;
-import simulation.utils.AnimalFactory;
+import simulation.factories.AnimalFactory;
+import simulation.factories.PlantFactory;
+import simulation.utils.MyRandom;
+import simulation.utils.Settings;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -11,6 +14,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class Location {
     private AtomicInteger availableCapacity = new AtomicInteger();
+    private AtomicInteger plantsCount = new AtomicInteger();
     private List<Entity> entities;
 
     public Location(int capacity) {
@@ -38,6 +42,22 @@ public class Location {
             needToFill -= newAnimal.getSize();
             availableCapacity.addAndGet(-newAnimal.getSize());
         }
+    }
+
+    public void growPlants(int count) {
+        if (count < 0) throw new IllegalArgumentException("Count must be positive");
+        if (plantsCount.get() < Settings.MAX_PLANT_COUNT) {
+            PlantFactory factory = new PlantFactory();
+            for (int i = 0; i < count; i++) {
+                entities.add(factory.producePlant());
+                plantsCount.incrementAndGet();
+            }
+        }
+    }
+
+    public void randomPlantsGrow(int maxCount) {
+        int count = MyRandom.getRandomInt(0, maxCount + 1);
+        growPlants(count);
     }
 
     public int getAvailableCapacity() {

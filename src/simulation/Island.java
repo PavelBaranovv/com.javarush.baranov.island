@@ -17,16 +17,25 @@ public class Island {
         }
     }
 
-    public Island(int width, int height, int fullness) {
+    public Island(int width, int height, int animalFullness, int plantsFullness) {
         this(width, height);
-        spawnRandomAnimals(fullness);
+        spawnRandomAnimals(animalFullness);
+        growPlantsRandom(plantsFullness);
     }
 
 
-    private void spawnRandomAnimals(int fullness) {
+    public void spawnRandomAnimals(int fullness) {
         for (Location[] row : locations) {
             for (Location location : row) {
                 location.spawnRandomAnimals(fullness);
+            }
+        }
+    }
+
+    public void growPlantsRandom(int maxCount) {
+        for (Location[] row : locations) {
+            for (Location location : row) {
+                location.randomPlantsGrow(maxCount);
             }
         }
     }

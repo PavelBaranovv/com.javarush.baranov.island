@@ -4,9 +4,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Settings {
-    public static final int ISLAND_WIDTH = 5;
-    public static final int ISLAND_HEIGHT = 5;
-    public static final int LOCATION_CAPACITY = 1000;
+    public static final int ISLAND_WIDTH = 5;                // Ширина острова
+    public static final int ISLAND_HEIGHT = 5;               // Высота острова
+
+    public static final int LOCATION_CAPACITY = 1000;        // Вместимость одной локации
+    public static final int MAX_PLANT_COUNT = 200;           // Максимальное количество растений на одной локации
+
+
+    public static final int START_ANIMAL_FULLNESS = 50;      // Заполненность животными в начале симуляции (0% - 100%)
+    public static final int START_PLANT_FULLNESS = 50;       // Заполненность растениями в начале симуляции (0% - 100%)
+
+    public static final int MAX_EVERYDAY_GROWING_COUNT = 5;  // Максимальный прирост растений в одной локации за 1 день
+
+    // Ниже заданы основные характеристики всех сущностей.
+
+    public static final int PLANT_SIZE = 1;
+    public static final int PLANT_WEIGHT = 1;
 
     private static final Map<String, Integer> WOLF_FOOD = new HashMap<>() {{
         put("Horse", 10);

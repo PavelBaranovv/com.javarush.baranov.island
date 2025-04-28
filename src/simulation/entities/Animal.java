@@ -2,7 +2,6 @@ package simulation.entities;
 
 import simulation.utils.AnimalCharacteristics;
 
-import java.util.Map;
 
 public abstract class Animal extends Entity {
     private final AnimalCharacteristics characteristics;
@@ -13,5 +12,9 @@ public abstract class Animal extends Entity {
 
     public int getSize() {
         return characteristics.getSize();
+    }
+
+    public int getWeight() {
+        return characteristics.getWeight();
     }
 }

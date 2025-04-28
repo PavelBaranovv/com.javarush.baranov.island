@@ -14,4 +14,8 @@ public class MyRandom {
         int index = random.nextInt(list.size());
         return list.get(index);
     }
+
+    public static int getRandomInt(int left, int right) {
+        return random.nextInt(left, right);
+    }
 }

@@ -1,12 +1,14 @@
-package simulation.utils;
+package simulation.factories;
 
 import simulation.entities.Animal;
 import simulation.entities.animals.herbivores.*;
 import simulation.entities.animals.predators.*;
 import simulation.exceptions.EntityProductionException;
+import simulation.utils.AnimalCharacteristics;
+import simulation.utils.MyRandom;
+import simulation.utils.Settings;
 
 import java.util.Map;
-import java.util.Objects;
 
 public class AnimalFactory {
     public Animal produceAnimal(String animalType) {
