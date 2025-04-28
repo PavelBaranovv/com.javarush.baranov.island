@@ -1,9 +1,8 @@
+import simulation.Island;
 import simulation.Location;
 
 public class Main {
     public static void main(String[] args) {
-        Location location = new Location(1000);
-        location.spawnRandomAnimals(80);
-
+        Island island = new Island(5, 5, 80);
     }
 }
