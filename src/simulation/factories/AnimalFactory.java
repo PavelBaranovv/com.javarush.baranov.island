@@ -13,22 +13,26 @@ import java.util.Map;
 public class AnimalFactory {
     public Animal produceAnimal(String animalType) {
         AnimalCharacteristics characteristics = Settings.ANIMAL_CHARACTERISTICS.get(animalType);
+
+        int minSaturation = characteristics.getSaturationWeight() * Settings.MIN_START_SATURATION / 100;
+        int saturation = MyRandom.getRandomInt(minSaturation, characteristics.getSaturationWeight() + 1);
+
         return switch (animalType.toLowerCase()) {
-            case "wolf" -> new Wolf(characteristics);
-            case "fox" -> new Fox(characteristics);
-            case "bear" -> new Bear(characteristics);
-            case "eagle" -> new Eagle(characteristics);
-            case "horse" -> new Horse(characteristics);
-            case "deer" -> new Deer(characteristics);
-            case "rabbit" -> new Rabbit(characteristics);
-            case "mouse" -> new Mouse(characteristics);
-            case "goat" -> new Goat(characteristics);
-            case "sheep" -> new Sheep(characteristics);
-            case "boar" -> new Boar(characteristics);
-            case "buffalo" -> new Buffalo(characteristics);
-            case "duck" -> new Duck(characteristics);
-            case "caterpillar" -> new Caterpillar(characteristics);
-            case "boa" -> new Boa(characteristics);
+            case "wolf" -> new Wolf(characteristics, saturation);
+            case "fox" -> new Fox(characteristics, saturation);
+            case "bear" -> new Bear(characteristics, saturation);
+            case "eagle" -> new Eagle(characteristics, saturation);
+            case "horse" -> new Horse(characteristics, saturation);
+            case "deer" -> new Deer(characteristics, saturation);
+            case "rabbit" -> new Rabbit(characteristics, saturation);
+            case "mouse" -> new Mouse(characteristics, saturation);
+            case "goat" -> new Goat(characteristics, saturation);
+            case "sheep" -> new Sheep(characteristics, saturation);
+            case "boar" -> new Boar(characteristics, saturation);
+            case "buffalo" -> new Buffalo(characteristics, saturation);
+            case "duck" -> new Duck(characteristics, saturation);
+            case "caterpillar" -> new Caterpillar(characteristics, saturation);
+            case "boa" -> new Boa(characteristics, saturation);
             default -> throw new EntityProductionException("Unknown animal type: " + animalType);
         };
     }

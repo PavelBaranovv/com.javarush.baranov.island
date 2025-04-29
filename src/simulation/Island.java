@@ -3,7 +3,7 @@ package simulation;
 import simulation.utils.Settings;
 
 public class Island {
-    private Location[][] locations;
+    private final Location[][] locations;
 
     public Island(int width, int height) {
         if (width <= 0 || height <= 0) {
@@ -52,6 +52,14 @@ public class Island {
         for (Location[] row : locations) {
             for (Location location : row) {
                 location.eatingTick();
+            }
+        }
+    }
+
+    public void reproducingTick() {
+        for (Location[] row : locations) {
+            for (Location location : row) {
+                location.reproducingTick();
             }
         }
     }

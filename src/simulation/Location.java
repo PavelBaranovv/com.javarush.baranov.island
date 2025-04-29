@@ -82,4 +82,28 @@ public class Location {
             }
         }
     }
+
+    public void reproducingTick() {
+        Map<String, Long> animalCounting = entities.stream()
+                .filter(e -> e instanceof Animal && e.isAlive())
+                .map(e -> e.getClass().getSimpleName())
+                .collect(Collectors.groupingBy(
+                        (x) -> x,
+                        Collectors.counting()
+                ));
+        AnimalFactory factory = new AnimalFactory();
+        for (Map.Entry<String, Long> entry : animalCounting.entrySet()) {
+            if (entry.getValue() >= 2) {
+                for (int i = 0; i < entry.getValue() / 2; i++) {
+                    Animal animal = factory.produceAnimal(entry.getKey());
+                    if (availableAnimalCapacity.get() < animal.getSize()) {
+                        break;
+                    }
+                    entities.add(animal);
+                    availableAnimalCapacity.addAndGet(-animal.getSize());
+                    Statistics.getInstance().addBirth();
+                }
+            }
+        }
+    }
 }

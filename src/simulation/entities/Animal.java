@@ -10,9 +10,9 @@ public abstract class Animal extends Entity {
     private final AnimalCharacteristics characteristics;
     private int saturation;
 
-    public Animal(AnimalCharacteristics characteristics) {
+    public Animal(AnimalCharacteristics characteristics, int saturation) {
         this.characteristics = characteristics;
-        this.saturation = characteristics.getSaturationWeight() / 2;
+        this.saturation = saturation;
     }
 
     public int getSize() {

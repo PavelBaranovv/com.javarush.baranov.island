@@ -4,7 +4,7 @@ import simulation.entities.animals.Predator;
 import simulation.utils.AnimalCharacteristics;
 
 public class Eagle extends Predator {
-    public Eagle(AnimalCharacteristics characteristics) {
-        super(characteristics);
+    public Eagle(AnimalCharacteristics characteristics, int saturation) {
+        super(characteristics, saturation);
     }
 }
