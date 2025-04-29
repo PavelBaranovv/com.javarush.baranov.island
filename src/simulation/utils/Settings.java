@@ -10,12 +10,14 @@ public class Settings {
     public static final int LOCATION_ANIMALS_CAPACITY = 1000;   // Вместимость животных на одной локации
     public static final int LOCATION_PLANTS_CAPACITY = 1000;    // Вместимость растений на одной локации
 
-    public static final int MIN_START_SATURATION = 50;          // Мин. насыщение животного при рождении (0% - 100%)
-
+    public static final int MIN_START_SATURATION = 50;         // Мин. насыщение животного при рождении (0% - 100%)
     public static final int START_ANIMAL_FULLNESS = 50;        // Заполненность животными в начале симуляции (0% - 100%)
     public static final int START_PLANT_FULLNESS = 80;         // Заполненность растениями в начале симуляции (0% - 100%)
 
-    public static final int MAX_DAY_GROWING_COUNT = 5;    // Максимальный прирост растений в одной локации за 1 день
+    public static final int REPRODUCE_CHANCE = 90;             // Шанс животного размножится (при наличии партнера)
+    public static final int MOVE_CHANCE = 50;                  // Шанс животного перейти в другую локацию
+
+    public static final int MAX_DAY_GROWING_COUNT = 5;          // Максимальный прирост растений в одной локации за 1 день
 
     // Ниже заданы основные характеристики всех сущностей
 

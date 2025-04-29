@@ -1,5 +1,7 @@
 package simulation.utils;
 
+import simulation.utils.position.Vector;
+
 import java.util.List;
 import java.util.Random;
 
@@ -23,5 +25,19 @@ public class MyRandom {
             throw new IllegalArgumentException("Probability must be from 0 to 100");
         }
         return random.nextInt(100) + 1 <= probability;
+    }
+
+    public static Vector getRandomVector(int maxLength) {
+        if (maxLength < 0) {
+            throw new IllegalArgumentException("Max length can't be negative");
+        }
+
+        double angle = random.nextDouble() * 2 * Math.PI;
+        double length = random.nextDouble() * maxLength;
+
+        int dx = (int) Math.round(length * Math.cos(angle));
+        int dy = (int) Math.round(length * Math.sin(angle));
+
+        return new Vector(dx, dy);
     }
 }

@@ -20,5 +20,9 @@ public class Main {
         System.out.println();
         Statistics.getInstance().printStatistics();
 
+        island.moveTick();
+
+        System.out.println();
+        Statistics.getInstance().printStatistics();
     }
 }

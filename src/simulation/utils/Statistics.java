@@ -10,9 +10,10 @@ public class Statistics {
 
     private final AtomicInteger animalsCount = new AtomicInteger();
     private final AtomicInteger plantsCount = new AtomicInteger();
-    private final AtomicInteger plantEatings = new AtomicInteger();
-    private final AtomicInteger animalEatings = new AtomicInteger();
+    private final AtomicInteger plantEats = new AtomicInteger();
+    private final AtomicInteger animalEats = new AtomicInteger();
     private final AtomicInteger animalBirths = new AtomicInteger();
+    private final AtomicInteger animalMoves = new AtomicInteger();
 
 
     private Statistics() {                             // Singleton
@@ -36,18 +37,19 @@ public class Statistics {
     public void printStatistics() {
         System.out.println("Animal count: " + animalsCount);
         System.out.println("Plant count: " + plantsCount);
-        System.out.println("Plant eatings: " + plantEatings.get());
-        System.out.println("Animal eatings: " + animalEatings.get());
+        System.out.println("Plant eatings: " + plantEats.get());
+        System.out.println("Animal eatings: " + animalEats.get());
         System.out.println("Animal births: " + animalBirths.get());
+        System.out.println("Animal moves: " + animalMoves.get());
 
     }
 
     public void addEating(Entity victim) {
         if (victim instanceof Animal) {
-            animalEatings.incrementAndGet();
+            animalEats.incrementAndGet();
             animalsCount.decrementAndGet();
         } else if (victim instanceof Plant) {
-            plantEatings.incrementAndGet();
+            plantEats.incrementAndGet();
             plantsCount.decrementAndGet();
         }
     }
@@ -55,5 +57,9 @@ public class Statistics {
     public void addBirth() {
         animalBirths.incrementAndGet();
         addAnimalsCount();
+    }
+
+    public void addMoves() {
+        animalMoves.incrementAndGet();
     }
 }

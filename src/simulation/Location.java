@@ -4,6 +4,7 @@ import simulation.entities.*;
 import simulation.factories.*;
 import simulation.utils.*;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -99,11 +100,33 @@ public class Location {
                     if (availableAnimalCapacity.get() < animal.getSize()) {
                         break;
                     }
-                    entities.add(animal);
-                    availableAnimalCapacity.addAndGet(-animal.getSize());
-                    Statistics.getInstance().addBirth();
+                    if (MyRandom.eventExecution(Settings.REPRODUCE_CHANCE)) {
+                        addAnimal(animal);
+                        Statistics.getInstance().addBirth();
+                    }
                 }
             }
         }
+    }
+
+    public void addAnimal(Animal animal) {
+        entities.add(animal);
+        availableAnimalCapacity.addAndGet(-animal.getSize());
+    }
+
+    public List<Animal> removeRandomAnimals(int chance) {
+        if (chance < 0 || chance > 100) {
+            throw new IllegalArgumentException("Illegal remove chance: " + chance);
+        }
+        List<Animal> removed = new ArrayList<>();
+
+        entities.forEach(e -> {
+            if (e instanceof Animal && e.isAlive() && MyRandom.eventExecution(chance)) {
+                entities.remove(e);
+                removed.add((Animal) e);
+                availableAnimalCapacity.addAndGet(e.getSize());
+            }
+        });
+        return removed;
     }
 }
