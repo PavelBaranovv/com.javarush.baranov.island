@@ -1,4 +1,4 @@
-package simulation;
+package simulation.island;
 
 import simulation.entities.*;
 import simulation.factories.*;
@@ -35,7 +35,7 @@ public class Location {
             entities.add(newAnimal);
             needToFill -= newAnimal.getSize();
             availableAnimalCapacity.addAndGet(-newAnimal.getSize());
-            Statistics.getInstance().addAnimalsCount();
+            Statistics.getInstance().addAnimalsCount(newAnimal);
 
         }
     }
@@ -102,7 +102,7 @@ public class Location {
                     }
                     if (MyRandom.eventExecution(Settings.REPRODUCE_CHANCE)) {
                         addAnimal(animal);
-                        Statistics.getInstance().addBirth();
+                        Statistics.getInstance().addBirth(animal);
                     }
                 }
             }

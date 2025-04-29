@@ -18,4 +18,9 @@ public class Plant extends Entity {
     public int getWeight() {
         return weight;
     }
+
+    @Override
+    public String getEmoji() {
+        return "\uD83C\uDF31";
+    }
 }

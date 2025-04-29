@@ -115,20 +115,20 @@ public class Settings {
     }};
 
     public static final Map<String, AnimalCharacteristics> ANIMAL_CHARACTERISTICS = new HashMap<>() {{
-        put("Wolf", new AnimalCharacteristics(50, 30, 3, 8, WOLF_FOOD));
-        put("Boa", new AnimalCharacteristics(15, 30, 1, 3, BOA_FOOD));
-        put("Fox", new AnimalCharacteristics(10, 30, 2, 2, FOX_FOOD));
-        put("Bear", new AnimalCharacteristics(100, 5, 2, 80, BEAR_FOOD));
-        put("Eagle", new AnimalCharacteristics(6, 20, 3, 1, EAGLE_FOOD));
-        put("Horse", new AnimalCharacteristics(90, 20, 4, 60, HORSE_FOOD));
-        put("Deer", new AnimalCharacteristics(90, 20, 4, 50, DEER_FOOD));
-        put("Rabbit", new AnimalCharacteristics(8, 150, 2, 1, RABBIT_FOOD));
-        put("Mouse", new AnimalCharacteristics(2, 500, 1, 1, MOUSE_FOOD));
-        put("Goat", new AnimalCharacteristics(60, 140, 3, 10, GOAT_FOOD));
-        put("Sheep", new AnimalCharacteristics(70, 140, 3, 15, SHEEP_FOOD));
-        put("Boar", new AnimalCharacteristics(90, 50, 2, 50, BOAR_FOOD));
-        put("Buffalo", new AnimalCharacteristics(100, 10, 3, 100, BUFFALO_FOOD));
-        put("Duck", new AnimalCharacteristics(3, 5, 4, 1, DUCK_FOOD));
-        put("Caterpillar", new AnimalCharacteristics(1, 2, 0, 0, CATERPILLAR_FOOD));
+        put("Wolf", new AnimalCharacteristics(50, 30, 3, 8, WOLF_FOOD, "\uD83D\uDC3A"));
+        put("Boa", new AnimalCharacteristics(15, 30, 1, 3, BOA_FOOD, "\uD83D\uDC0D"));
+        put("Fox", new AnimalCharacteristics(10, 30, 2, 2, FOX_FOOD, "\uD83E\uDD8A"));
+        put("Bear", new AnimalCharacteristics(100, 5, 2, 80, BEAR_FOOD, "\uD83D\uDC3B"));
+        put("Eagle", new AnimalCharacteristics(6, 20, 3, 1, EAGLE_FOOD, "\uD83E\uDD85"));
+        put("Horse", new AnimalCharacteristics(90, 20, 4, 60, HORSE_FOOD, "\uD83D\uDC34"));
+        put("Deer", new AnimalCharacteristics(90, 20, 4, 50, DEER_FOOD, "\uD83E\uDECE"));
+        put("Rabbit", new AnimalCharacteristics(8, 150, 2, 1, RABBIT_FOOD, "\uD83D\uDC30"));
+        put("Mouse", new AnimalCharacteristics(2, 500, 1, 1, MOUSE_FOOD, "\uD83D\uDC01"));
+        put("Goat", new AnimalCharacteristics(60, 140, 3, 10, GOAT_FOOD, "\uD83D\uDC10"));
+        put("Sheep", new AnimalCharacteristics(70, 140, 3, 15, SHEEP_FOOD, "\uD83D\uDC0F"));
+        put("Boar", new AnimalCharacteristics(90, 50, 2, 50, BOAR_FOOD, "\uD83D\uDC17"));
+        put("Buffalo", new AnimalCharacteristics(100, 10, 3, 100, BUFFALO_FOOD, "\uD83E\uDDAC"));
+        put("Duck", new AnimalCharacteristics(3, 5, 4, 1, DUCK_FOOD, "\uD83E\uDD86"));
+        put("Caterpillar", new AnimalCharacteristics(1, 2, 0, 0, CATERPILLAR_FOOD, "\uD83D\uDC1B"));
     }};
 }

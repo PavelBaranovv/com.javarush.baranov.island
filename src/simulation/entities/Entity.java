@@ -5,6 +5,7 @@ public abstract class Entity {
 
     public abstract int getSize();
     public abstract int getWeight();
+    public abstract String getEmoji();
 
     public boolean isAlive() {
         return isAlive;

@@ -35,6 +35,11 @@ public abstract class Animal extends Entity {
         return characteristics.getMaxSpeed();
     }
 
+    @Override
+    public String getEmoji() {
+        return characteristics.getEmoji();
+    }
+
     public void eat(Entity other) {
         if (!other.isAlive()) {
             throw new AnimalEatingException("Can not eat death entity");

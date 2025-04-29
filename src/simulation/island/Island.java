@@ -1,4 +1,4 @@
-package simulation;
+package simulation.island;
 
 import simulation.entities.Animal;
 import simulation.utils.MyRandom;

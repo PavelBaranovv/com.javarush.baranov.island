@@ -1,4 +1,5 @@
-import simulation.Island;
+import simulation.island.Island;
+import simulation.utils.Renderer;
 import simulation.utils.Settings;
 import simulation.utils.Statistics;
 
@@ -8,21 +9,26 @@ public class Main {
                 Settings.START_ANIMAL_FULLNESS, Settings.START_PLANT_FULLNESS);
         island.growPlantsRandom(20);
 
-        Statistics.getInstance().printStatistics();
+        Renderer renderer = new Renderer();
+        renderer.printFullStatistics(1, Statistics.getInstance());
 
         island.eatingTick();
 
         System.out.println();
-        Statistics.getInstance().printStatistics();
+        renderer.printFullStatistics(1, Statistics.getInstance());
+
 
         island.reproducingTick();
 
         System.out.println();
-        Statistics.getInstance().printStatistics();
+        renderer.printFullStatistics(1, Statistics.getInstance());
+
 
         island.moveTick();
 
         System.out.println();
-        Statistics.getInstance().printStatistics();
+        renderer.printFullStatistics(1, Statistics.getInstance());
+
+
     }
 }
