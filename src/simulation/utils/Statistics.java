@@ -34,7 +34,7 @@ public class Statistics {
     public void addAnimalsCount(Animal animal) {
         String emoji = animal.getEmoji();
         Integer count = animalsCounts.get(emoji);
-        animalsCounts.put(emoji, count == null ? 0 : ++count);
+        animalsCounts.put(emoji, count == null ? 1 : ++count);
         animalsCount.incrementAndGet();
     }
 
