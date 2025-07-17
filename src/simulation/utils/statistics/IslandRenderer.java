@@ -8,6 +8,9 @@ public class IslandRenderer {
     Island island;
 
     public IslandRenderer(Island island) {
+        if (island == null) {
+            throw new IllegalArgumentException("island cannot be null");
+        }
         this.island = island;
     }
 

@@ -43,6 +43,9 @@ public abstract class Animal extends Entity {
     }
 
     public void eat(Entity other) {
+        if (other == null) {
+            throw new IllegalArgumentException("Entity cannot be null");
+        }
         if (!other.isAlive()) {
             throw new AnimalEatingException("Can not eat death entity");
         }

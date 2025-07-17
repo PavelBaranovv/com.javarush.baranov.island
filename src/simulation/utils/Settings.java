@@ -7,35 +7,35 @@ public class Settings {
     public static final int DAY_DURATION = 100;                 // Длительность одного дня (в миллисекундах)
     public static final int PRINTING_INTERVAL = 5;              // Печатать статистику каждые n дней
 
-    public static final int ISLAND_WIDTH = 10;                 // Ширина острова
+    public static final int ISLAND_WIDTH = 10;                  // Ширина острова
     public static final int ISLAND_HEIGHT = 15;                 // Высота острова
 
-    public static final int LOCATION_ANIMALS_CAPACITY = 5000;    // Вместимость одной локации для животных
-    public static final int LOCATION_PLANTS_CAPACITY = 1000;      // Вместимость одной локации для растений
+    public static final int LOCATION_ANIMALS_CAPACITY = 5000;   // Вместимость одной локации для животных
+    public static final int LOCATION_PLANTS_CAPACITY = 1000;    // Вместимость одной локации для растений
 
     public static final int MIN_START_SATURATION = 75;          // Мин насыщение животного при рождении (0% - 100%)
     public static final int START_ANIMAL_FULLNESS = 20;         // Заполненность животными в начале симуляции (0% - 100%)
-    public static final int START_PLANT_FULLNESS = 100;          // Заполненность растениями в начале симуляции (0% - 100%)
+    public static final int START_PLANT_FULLNESS = 100;         // Заполненность растениями в начале симуляции (0% - 100%)
 
-    public static final int PREDATORS_REPRODUCE_CHANCE = 10;     // Шанс хищника размножится (при наличии партнера)
-    public static final int HERBIVOROUS_REPRODUCE_CHANCE = 40;   // Шанс травоядного размножится (при наличии партнера)
+    public static final int PREDATORS_REPRODUCE_CHANCE = 10;    // Шанс хищника размножится (при наличии партнера)
+    public static final int HERBIVOROUS_REPRODUCE_CHANCE = 40;  // Шанс травоядного размножится (при наличии партнера)
 
-    public static final int MOVE_CHANCE = 40;                    // Шанс животного перейти в другую локацию
-    public static final int MOVE_TIRED = 4;                      // Насколько животное устает за одно перемещение
-    public static final int REPRODUCE_SATURATION = 90;           // Насколько сытым должно быть животное для размножения (0% - 100%)
+    public static final int MOVE_CHANCE = 40;                   // Шанс животного перейти в другую локацию
+    public static final int MOVE_TIRED = 4;                     // Насколько животное устает за одно перемещение
+    public static final int REPRODUCE_SATURATION = 90;          // Насколько сытым должно быть животное для размножения (0% - 100%)
 
-    public static final int MIN_DAY_GROWING_COUNT = 30;           // Минимальный прирост растений в одной локации за 1 день
-    public static final int MAX_DAY_GROWING_COUNT = 50;           // Максимальный прирост растений в одной локации за 1 день
+    public static final int MIN_DAY_GROWING_COUNT = 30;         // Минимальный прирост растений в одной локации за 1 день
+    public static final int MAX_DAY_GROWING_COUNT = 50;         // Максимальный прирост растений в одной локации за 1 день
 
-    public static final int DAILY_HUNGER_AMOUNT = 1;              // Сколько единиц сытости животное теряет за день
-    public static final int DAILY_HUNGER_CHANCE = 40;             // и с какой вероятностью
+    public static final int DAILY_HUNGER_AMOUNT = 1;            // Сколько единиц сытости животное теряет за день
+    public static final int DAILY_HUNGER_CHANCE = 40;           // и с какой вероятностью
 
     // ========== УСЛОВИЯ ЗАВЕРШЕНИЯ СИМУЛЯЦИИ: =========
-    public static final int MIN_ANIMALS_COUNT = 10;          // Если осталось слишком мало животных
-    public static final int MIN_HERBIVOROUS_COUNT = 10;      // Если осталось слишком мало травоядных
-    public static final int MIN_PREDATORS_COUNT = 10;        // Если осталось слишком мало хищников
-    public static final int MAX_SIMULATION_DURATION = 150;  // Если симуляция продлилась не менее чем n дней
-    public static final int MAX_EXTINCT_ANIMALS = 5;         // Если исчезло не менее n видов животных
+    public static final int MIN_ANIMALS_COUNT = 10;           // Если осталось слишком мало животных
+    public static final int MIN_HERBIVOROUS_COUNT = 10;       // Если осталось слишком мало травоядных
+    public static final int MIN_PREDATORS_COUNT = 10;         // Если осталось слишком мало хищников
+    public static final int MAX_SIMULATION_DURATION = 150;    // Если симуляция продлилась не менее чем n дней
+    public static final int MAX_EXTINCT_ANIMALS = 5;          // Если исчезло не менее n видов животных
 
     // ========== ХАРАКТЕРИСТИКИ СУЩНОСТЕЙ: =========
     public static final int PLANT_SIZE = 1;

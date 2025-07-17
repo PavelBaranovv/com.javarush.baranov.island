@@ -14,6 +14,9 @@ public class AnimalCharacteristics {
         if (size > Settings.LOCATION_ANIMALS_CAPACITY) {
             throw new IllegalArgumentException("Too big size for this simulation: " + size);
         }
+        if (size <= 0 || weight <= 0 || maxSpeed < 0 || saturationWeight <= 0 || food == null || emoji == null) {
+            throw new IllegalArgumentException("Invalid simulation parameters");
+        }
         this.SIZE = size;
         this.WEIGHT = weight;
         this.MAX_SPEED = maxSpeed;

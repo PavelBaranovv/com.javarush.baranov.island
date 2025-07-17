@@ -12,6 +12,10 @@ import java.util.Map;
 
 public class AnimalFactory {
     public Animal produceAnimal(String animalType) {
+        if (animalType == null || animalType.isEmpty()) {
+            throw new EntityProductionException("Invalid animal type");
+        }
+
         AnimalCharacteristics characteristics = Settings.ANIMAL_CHARACTERISTICS.get(animalType);
 
         int minSaturation = characteristics.getSaturationWeight() * Settings.MIN_START_SATURATION / 100;
@@ -38,6 +42,9 @@ public class AnimalFactory {
     }
 
     public Animal produceRandomAnimal(int size) {
+        if (size <= 0) {
+            throw new IllegalArgumentException("Size must be greater than 0");
+        }
         Map.Entry<String, AnimalCharacteristics> randomAnimal = MyRandom.chooseRandomElement(
                 Settings.ANIMAL_CHARACTERISTICS.entrySet().stream()
                         .filter((entry) -> entry.getValue().getSize() <= size)

@@ -34,12 +34,18 @@ public class Island {
 
     public Island(int width, int height, int animalFullness, int plantsFullness) {
         this(width, height);
+        if (animalFullness <= 0 || plantsFullness < 0 || animalFullness > 100 || plantsFullness > 100) {
+            throw new IllegalArgumentException("Invalid fullness dimensions");
+        }
         spawnRandomAnimals(animalFullness);
         fillPlants(plantsFullness);
     }
 
 
     public void spawnRandomAnimals(int fullness) {
+        if (fullness < 0 || fullness > 100) {
+            throw new IllegalArgumentException("Fullness must be from 0 to zero");
+        }
         List<Callable<Void>> tasks = new ArrayList<>();
         for (Location[] row : locations) {
             for (Location location : row) {
@@ -57,6 +63,9 @@ public class Island {
     }
 
     public void fillPlants(int fullness) {
+        if (fullness < 0 || fullness > 100) {
+            throw new IllegalArgumentException("Fullness must be from 0 to zero");
+        }
         List<Callable<Void>> tasks = new ArrayList<>();
         for (Location[] row : locations) {
             for (Location location : row) {
@@ -74,6 +83,9 @@ public class Island {
     }
 
     public void growPlantsRandom(int minCount, int maxCount) {
+        if (minCount <= 0 || minCount > maxCount) {
+            throw new IllegalArgumentException("Illegal counts");
+        }
         List<Callable<Void>> tasks = new ArrayList<>();
         for (Location[] row : locations) {
             for (Location location : row) {
@@ -160,6 +172,10 @@ public class Island {
         return calculateAverage(Location::getAnimalFullness);
     }
 
+    public Location[][] getLocations() {
+        return locations;
+    }
+
     private int calculateAverage(Function<Location, Integer> fullnessFunction) {
         if (locations.length == 0 || locations[0].length == 0) {
             return 0;
@@ -203,9 +219,5 @@ public class Island {
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
-    }
-
-    public Location[][] getLocations() {
-        return locations;
     }
 }

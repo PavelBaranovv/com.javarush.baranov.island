@@ -12,6 +12,7 @@ import java.util.concurrent.*;
 public class Simulation {
     private final Island island;
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+    private final StatisticPrinter printer = new StatisticPrinter();
     private int dayCounter;
 
     public Simulation(Island island) {
@@ -39,7 +40,6 @@ public class Simulation {
 
         if (dayCounter % Settings.PRINTING_INTERVAL == 0) {
             System.out.println("========== DAY " + dayCounter + " ==========");
-            StatisticPrinter printer = new StatisticPrinter();
             printer.printFullStatistics(Statistics.getInstance(), island);
         }
 
@@ -80,7 +80,7 @@ public class Simulation {
         System.out.println();
         System.out.println("Остров:");
         System.out.println("(показана заполненность каждой локации растениями и животными,");
-        System.out.println("стикер обозначчает вид, которого в локации больше всего)");
+        System.out.println("стикер обозначает вид, которого в локации больше всего)");
         IslandRenderer renderer = new IslandRenderer(island);
         renderer.drawIsland();
     }

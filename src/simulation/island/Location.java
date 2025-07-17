@@ -20,6 +20,9 @@ public class Location {
     private final List<Entity> entities;
 
     public Location(int animalCapacity, int plantCapacity) {
+        if (animalCapacity < 0 || plantCapacity < 0) {
+            throw new IllegalArgumentException("Animal capacity and plant capacity cannot be less than zero");
+        }
         this.availableAnimalCapacity.set(animalCapacity);
         this.availablePlantCapacity.set(plantCapacity);
         entities = new CopyOnWriteArrayList<>();
@@ -43,7 +46,9 @@ public class Location {
     }
 
     public void fillPlants(int fullness) {
-        if (fullness < 0) throw new IllegalArgumentException("Fullness must be positive");
+        if (fullness < 0 || fullness > 100) {
+            throw new IllegalArgumentException("Fullness must be from 0 to zero");
+        }
         int count = availablePlantCapacity.get() * fullness / 100;
         growPlants(count);
     }
@@ -103,6 +108,9 @@ public class Location {
     }
 
     public void addAnimal(Animal animal) {
+        if (animal == null) {
+            throw new IllegalArgumentException("Animal cannot be null");
+        }
         if (animal.getSize() > availableAnimalCapacity.get()) {
             throw new EntityPlaceException("Too big animal for this location");
         }
@@ -119,6 +127,9 @@ public class Location {
     }
 
     public synchronized boolean tryAddAnimal(Animal animal) {
+        if (animal == null) {
+            throw new IllegalArgumentException("Animal cannot be null");
+        }
         if (availableAnimalCapacity.get() >= animal.getSize()) {
             entities.add(animal);
             availableAnimalCapacity.addAndGet(-animal.getSize());
@@ -128,6 +139,9 @@ public class Location {
     }
 
     public synchronized void removeAnimal(Animal animal) {
+        if (animal == null) {
+            throw new IllegalArgumentException("Animal cannot be null");
+        }
         if (entities.remove(animal)) {
             availableAnimalCapacity.addAndGet(animal.getSize());
         } else {
@@ -176,7 +190,9 @@ public class Location {
     }
 
     private void growPlants(int count) {
-        if (count < 0) throw new IllegalArgumentException("Count must be positive");
+        if (count < 0) {
+            throw new IllegalArgumentException("Count must be positive");
+        }
         PlantFactory factory = new PlantFactory();
         int realCount = Math.min(count, availablePlantCapacity.get() / Settings.PLANT_SIZE);
         for (int i = 0; i < realCount; i++) {
@@ -188,7 +204,9 @@ public class Location {
     }
 
     private void incrementCapacity(Entity e) {
-        if (e instanceof Animal) {
+        if (e == null) {
+            throw new IllegalArgumentException("Entity cannot be null");
+        } else if (e instanceof Animal) {
             availableAnimalCapacity.addAndGet(e.getSize());
         } else if (e instanceof Plant) {
             availablePlantCapacity.addAndGet(e.getSize());
