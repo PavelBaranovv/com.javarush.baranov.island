@@ -7,10 +7,18 @@ import simulation.utils.Statistics;
 import simulation.utils.position.Position;
 import simulation.utils.position.Vector;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class Island {
     private final Location[][] locations;
+    private final ExecutorService fixedTP = Executors.newFixedThreadPool(8);
 
     public Island(int width, int height) {
         if (width <= 0 || height <= 0) {
@@ -32,64 +40,169 @@ public class Island {
 
 
     public void spawnRandomAnimals(int fullness) {
+        List<Callable<Void>> tasks = new ArrayList<>();
         for (Location[] row : locations) {
             for (Location location : row) {
-                location.spawnRandomAnimals(fullness);
+                tasks.add(() -> {
+                    location.spawnRandomAnimals(fullness);
+                    return null;
+                });
             }
+        }
+        try {
+            fixedTP.invokeAll(tasks);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
         }
     }
 
     public void growPlants(int maxCount) {
+        List<Callable<Void>> tasks = new ArrayList<>();
         for (Location[] row : locations) {
             for (Location location : row) {
-                location.growPlants(maxCount);
+                tasks.add(() -> {
+                    location.growPlants(maxCount);
+                    return null;
+                });
             }
+        }
+        try {
+            fixedTP.invokeAll(tasks);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
         }
     }
 
-    public void growPlantsRandom(int maxCount) {
+    public void growPlantsRandom(int minCount, int maxCount) {
+        List<Callable<Void>> tasks = new ArrayList<>();
         for (Location[] row : locations) {
             for (Location location : row) {
-                location.randomPlantsGrow(maxCount);
+                tasks.add(() -> {
+                    location.randomPlantsGrow(minCount, maxCount);
+                    return null;
+                });
             }
+        }
+        try {
+            fixedTP.invokeAll(tasks);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
         }
     }
 
     public void eatingTick() {
-        for (Location[] row : locations) {
-            for (Location location : row) {
-                location.eatingTick();
-            }
-        }
+        executeForAllLocations(Location::eatingTick);
     }
 
+
     public void reproducingTick() {
-        for (Location[] row : locations) {
-            for (Location location : row) {
-                location.reproducingTick();
-            }
-        }
+        executeForAllLocations(Location::reproducingTick);
     }
-    
+
+    public void hungerTick() {
+        executeForAllLocations(Location::hungerTick);
+    }
+
     public void moveTick() {
+        if (locations.length == 1 || locations[0].length == 1) {
+            return;
+        }
+
         final Position minPos = new Position(0, 0);
         final Position maxPos = new Position(locations.length - 1, locations[0].length - 1);
 
+        List<Callable<Void>> tasks = new ArrayList<>();
+
         for (int i = 0; i < locations.length; i++) {
             for (int j = 0; j < locations[i].length; j++) {
-                Location location = locations[i][j];
+                final int x = i;
+                final int y = j;
+                tasks.add(() -> {
+                    Location currentLocation = locations[x][y];
+                    List<Animal> animalsToMove = currentLocation.getAnimalsReadyToMove();
 
-                List<Animal> animals = location.removeRandomAnimals(Settings.MOVE_CHANCE);
+                    for (Animal animal : animalsToMove) {
+                        if (!animal.isReadyToMove()) continue;
 
-                for (Animal animal : animals) {
-                    Position basePos = new Position(i, j);
-                    Vector r = MyRandom.getRandomVector(animal.getMaxSpeed());
-                    Position newPos = basePos.addVector(r).limit(minPos, maxPos);
+                        Position basePos = new Position(x, y);
+                        Vector moveVector = MyRandom.getRandomVector(animal.getMaxSpeed());
+                        Position newPos = basePos.addVector(moveVector).limit(minPos, maxPos);
 
-                    locations[newPos.getX()][newPos.getY()].addAnimal(animal);
-                    Statistics.getInstance().addMoves();
-                }
+                        Location targetLocation = locations[newPos.getX()][newPos.getY()];
+
+                        if (targetLocation.tryAddAnimal(animal)) {
+                            currentLocation.removeAnimal(animal);
+                            animal.getTired(Settings.MOVE_TIRED);
+                            Statistics.getInstance().addMove();
+                        }
+                    }
+                    return null;
+                });
             }
+        }
+
+        try {
+            fixedTP.invokeAll(tasks);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    public void cleanDeadEntities() {
+        executeForAllLocations(Location::removeDeadEntities);
+    }
+
+    public int getAveragePlantFullness() {
+        return calculateAverage(Location::getPlantFullness);
+    }
+
+    public int getAverageAnimalFullness() {
+        return calculateAverage(Location::getAnimalFullness);
+    }
+
+    private int calculateAverage(Function<Location, Integer> fullnessFunction) {
+        if (locations.length == 0 || locations[0].length == 0) {
+            return 0;
+        }
+
+        AtomicInteger sum = new AtomicInteger(0);
+        AtomicInteger count = new AtomicInteger(0);
+        List<Callable<Void>> tasks = new ArrayList<>();
+
+        for (Location[] row : locations) {
+            for (Location location : row) {
+                tasks.add(() -> {
+                    sum.addAndGet(fullnessFunction.apply(location));
+                    count.incrementAndGet();
+                    return null;
+                });
+            }
+        }
+
+        try {
+            fixedTP.invokeAll(tasks);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            return 0;
+        }
+
+        return count.get() > 0 ? sum.get() / count.get() : 0;
+    }
+
+    private void executeForAllLocations(Consumer<Location> action) {
+        List<Callable<Void>> tasks = new ArrayList<>();
+        for (Location[] row : locations) {
+            for (Location loc : row) {
+                tasks.add(() -> {
+                    action.accept(loc);
+                    return null;
+                });
+            }
+        }
+        try {
+            fixedTP.invokeAll(tasks);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
         }
     }
 }

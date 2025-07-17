@@ -5,14 +5,12 @@ import simulation.utils.Settings;
 import simulation.utils.StatisticPrinter;
 import simulation.utils.Statistics;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
 import java.util.concurrent.*;
 
 public class Simulation {
     private final Island island;
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-    private final ExecutorService fixedTP = Executors.newFixedThreadPool(8);
     private int dayCounter;
 
     public Simulation(Island island) {
@@ -30,32 +28,52 @@ public class Simulation {
 
     public void dayTick() {
         dayCounter++;
-        List<Callable<Void>> tasks = new ArrayList<>();
-        tasks.add(() -> {
-            island.growPlants(Settings.MAX_DAY_GROWING_COUNT);
-            return null;
-        });
-        tasks.add(() -> {
-            island.eatingTick();
-            return null;
-        });
-        tasks.add(() -> {
-            island.reproducingTick();
-            return null;
-        });
-        tasks.add(() -> {
-            island.moveTick();
-            return null;
-        });
-        try {
-            fixedTP.invokeAll(tasks);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
+
+        island.growPlantsRandom(Settings.MIN_DAY_GROWING_COUNT, Settings.MAX_DAY_GROWING_COUNT);
+        island.reproducingTick();
+        island.eatingTick();
+        island.moveTick();
+        island.hungerTick();
+        island.cleanDeadEntities();
+
         if (dayCounter % Settings.PRINTING_INTERVAL == 0) {
             System.out.println("========== DAY " + dayCounter + " ==========");
             StatisticPrinter printer = new StatisticPrinter();
-            printer.printFullStatistics(Statistics.getInstance());
+            printer.printFullStatistics(Statistics.getInstance(), island);
         }
+
+        checkForEnd();
+    }
+
+    private void checkForEnd() {
+        if (Statistics.getInstance().getAnimalsCount() <= Settings.MIN_ANIMALS_COUNT) {
+            System.out.println("Животных почти не осталось");
+            stopSimulation();
+        } else if (Statistics.getInstance().getHerbivoresCount() <= Settings.MIN_HERBIVOROUS_COUNT) {
+            System.out.println("Хищники победили. Травоядных почти не осталось");
+            stopSimulation();
+        } else if (Statistics.getInstance().getPredatorsCount() <= Settings.MIN_PREDATORS_COUNT) {
+            System.out.println("Травоядные победили. Хищников почти не осталось");
+            stopSimulation();
+        } else if (dayCounter >= Settings.MAX_SIMULATION_DURATION) {
+            System.out.printf("Симуляция продлилась более %d дней\n", Settings.MAX_SIMULATION_DURATION);
+            System.out.println("Для продолжения увеличьте параметр MAX_SIMULATION_DURATION");
+            stopSimulation();
+        } else {
+            Map<String, Integer> extinctAnimals = Statistics.getInstance().getExtinctAnimals();
+            if (extinctAnimals.size() >= Settings.MAX_EXTINCT_ANIMALS) {
+                System.out.printf("Вымерло %d животных: ", extinctAnimals.size());
+                extinctAnimals.forEach((emoji, count) -> System.out.print(emoji));
+                System.out.println();
+                System.out.println("Для продолжения увеличьте параметр MAX_EXTINCT_ANIMALS");
+                stopSimulation();
+            }
+
+        }
+    }
+
+    private void stopSimulation() {
+        System.out.println("Симуляция завершена");
+        scheduler.shutdown();
     }
 }

@@ -9,8 +9,8 @@ public abstract class Entity {
 
     public boolean isAlive() {
         return isAlive;
-    };
-    void kill() {
+    }
+    void die() {
         isAlive = false;
-    };
+    }
 }

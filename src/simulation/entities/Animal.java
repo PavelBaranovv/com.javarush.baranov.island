@@ -2,6 +2,8 @@ package simulation.entities;
 
 import simulation.exceptions.AnimalEatingException;
 import simulation.utils.AnimalCharacteristics;
+import simulation.utils.Settings;
+import simulation.utils.Statistics;
 
 import java.util.Map;
 
@@ -45,10 +47,23 @@ public abstract class Animal extends Entity {
             throw new AnimalEatingException("Can not eat death entity");
         }
         saturation += other.getWeight();
-        other.kill();
+        other.die();
     }
 
-    public void decrementSaturation() {
-        saturation--;
+    public void getTired(int delta) {
+        if (delta < 0) throw new IllegalArgumentException("Invalid delta saturation");
+        this.saturation = Math.max(0, this.saturation - delta);
+        if (saturation == 0) {
+            this.die();
+            Statistics.getInstance().addHungryDeath(this);
+        }
+    }
+
+    public boolean isReadyToReproduce() {
+        return saturation >= characteristics.getSaturationWeight() * Settings.REPRODUCE_SATURATION / 100;
+    }
+
+    public boolean isReadyToMove() {
+        return isAlive() && saturation >= Settings.MOVE_TIRED;
     }
 }

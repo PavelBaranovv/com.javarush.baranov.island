@@ -33,7 +33,7 @@ public class MyRandom {
         }
 
         double angle = random.nextDouble() * 2 * Math.PI;
-        double length = random.nextDouble() * maxLength;
+        double length = Math.max(1, random.nextDouble() * maxLength);
 
         int dx = (int) Math.round(length * Math.cos(angle));
         int dy = (int) Math.round(length * Math.sin(angle));
