@@ -3,7 +3,7 @@ package simulation.entities;
 import simulation.exceptions.AnimalEatingException;
 import simulation.utils.AnimalCharacteristics;
 import simulation.utils.Settings;
-import simulation.utils.Statistics;
+import simulation.utils.statistics.Statistics;
 
 import java.util.Map;
 

@@ -6,10 +6,12 @@ import simulation.entities.animals.Predator;
 import simulation.exceptions.EntityPlaceException;
 import simulation.factories.*;
 import simulation.utils.*;
+import simulation.utils.statistics.Statistics;
 
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class Location {
@@ -80,7 +82,10 @@ public class Location {
     }
 
     public void reproducingTick() {
-        Map<String, Long> readyToReproduce = entities.stream().filter(e -> e instanceof Animal && e.isAlive() && ((Animal) e).isReadyToReproduce()).map(e -> e.getClass().getSimpleName()).collect(Collectors.groupingBy((x) -> x, Collectors.counting()));
+        Map<String, Long> readyToReproduce = entities.stream()
+                .filter(e -> e instanceof Animal && e.isAlive() && ((Animal) e).isReadyToReproduce())
+                .map(e -> e.getClass().getSimpleName())
+                .collect(Collectors.groupingBy((x) -> x, Collectors.counting()));
         AnimalFactory factory = new AnimalFactory();
         for (Map.Entry<String, Long> entry : readyToReproduce.entrySet()) {
             if (entry.getValue() >= 2) {
@@ -160,6 +165,17 @@ public class Location {
     public int getPlantFullness() {
         int usedCapacity = Settings.LOCATION_PLANTS_CAPACITY - availablePlantCapacity.get();
         return (usedCapacity * 100) / Settings.LOCATION_PLANTS_CAPACITY;
+    }
+
+    public Optional<String> getMostPopulatedAnimal() {
+        Map<String, Long> animalCounts = entities.stream()
+                .filter(e -> e instanceof Animal && e.isAlive())
+                .map(e -> e.getClass().getSimpleName())
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+
+        return animalCounts.entrySet().stream()
+                .max(Map.Entry.comparingByValue())
+                .map(Map.Entry::getKey);
     }
 
     private void incrementCapacity(Entity e) {

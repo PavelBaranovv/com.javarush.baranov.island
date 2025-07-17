@@ -3,7 +3,7 @@ package simulation.island;
 import simulation.entities.Animal;
 import simulation.utils.MyRandom;
 import simulation.utils.Settings;
-import simulation.utils.Statistics;
+import simulation.utils.statistics.Statistics;
 import simulation.utils.position.Position;
 import simulation.utils.position.Vector;
 
@@ -204,5 +204,9 @@ public class Island {
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
+    }
+
+    public Location[][] getLocations() {
+        return locations;
     }
 }

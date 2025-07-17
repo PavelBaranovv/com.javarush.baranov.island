@@ -8,27 +8,27 @@ public class Settings {
     public static final int PRINTING_INTERVAL = 5;              // Печатать статистику каждые n дней
 
     public static final int ISLAND_WIDTH = 10;                 // Ширина острова
-    public static final int ISLAND_HEIGHT = 10;                 // Высота острова
+    public static final int ISLAND_HEIGHT = 15;                 // Высота острова
 
-    public static final int LOCATION_ANIMALS_CAPACITY = 2000;    // Вместимость одной локации для животных
+    public static final int LOCATION_ANIMALS_CAPACITY = 5000;    // Вместимость одной локации для животных
     public static final int LOCATION_PLANTS_CAPACITY = 1000;      // Вместимость одной локации для растений
 
-    public static final int MIN_START_SATURATION = 80;          // Мин насыщение животного при рождении (0% - 100%)
-    public static final int START_ANIMAL_FULLNESS = 50;         // Заполненность животными в начале симуляции (0% - 100%)
-    public static final int START_PLANT_FULLNESS = 40;          // Заполненность растениями в начале симуляции (0% - 100%)
+    public static final int MIN_START_SATURATION = 75;          // Мин насыщение животного при рождении (0% - 100%)
+    public static final int START_ANIMAL_FULLNESS = 20;         // Заполненность животными в начале симуляции (0% - 100%)
+    public static final int START_PLANT_FULLNESS = 20;          // Заполненность растениями в начале симуляции (0% - 100%)
 
-    public static final int PREDATORS_REPRODUCE_CHANCE = 40;     // Шанс хищника размножится (при наличии партнера)
-    public static final int HERBIVOROUS_REPRODUCE_CHANCE = 60;   // Шанс травоядного размножится (при наличии партнера)
+    public static final int PREDATORS_REPRODUCE_CHANCE = 10;     // Шанс хищника размножится (при наличии партнера)
+    public static final int HERBIVOROUS_REPRODUCE_CHANCE = 40;   // Шанс травоядного размножится (при наличии партнера)
 
-    public static final int MOVE_CHANCE = 50;                    // Шанс животного перейти в другую локацию
-    public static final int MOVE_TIRED = 1;                      // Насколько животное устает за одно перемещение
-    public static final int REPRODUCE_SATURATION = 70;           // Насколько сытым должно быть животное для размножения (0% - 100%)
+    public static final int MOVE_CHANCE = 40;                    // Шанс животного перейти в другую локацию
+    public static final int MOVE_TIRED = 4;                      // Насколько животное устает за одно перемещение
+    public static final int REPRODUCE_SATURATION = 90;           // Насколько сытым должно быть животное для размножения (0% - 100%)
 
-    public static final int MIN_DAY_GROWING_COUNT = 10;           // Минимальный прирост растений в одной локации за 1 день
-    public static final int MAX_DAY_GROWING_COUNT = 30;           // Максимальный прирост растений в одной локации за 1 день
+    public static final int MIN_DAY_GROWING_COUNT = 5;           // Минимальный прирост растений в одной локации за 1 день
+    public static final int MAX_DAY_GROWING_COUNT = 20;           // Максимальный прирост растений в одной локации за 1 день
 
-    public static final int DAILY_HUNGER_AMOUNT = 1;             // Сколько единиц сытости животное теряет за день
-    public static final int DAILY_HUNGER_CHANCE = 50;             // и с какой вероятностью
+    public static final int DAILY_HUNGER_AMOUNT = 1;              // Сколько единиц сытости животное теряет за день
+    public static final int DAILY_HUNGER_CHANCE = 40;             // и с какой вероятностью
 
     // ========== УСЛОВИЯ ЗАВЕРШЕНИЯ СИМУЛЯЦИИ: =========
     public static final int MIN_ANIMALS_COUNT = 10;          // Если осталось слишком мало животных
@@ -45,34 +45,36 @@ public class Settings {
         put("Horse", 10);
         put("Deer", 15);
         put("Rabbit", 60);
-        put("Mouse", 80);
+        put("Mouse", 15);
         put("Goat", 60);
         put("Sheep", 70);
-        put("Boar", 15);
-        put("Buffalo", 10);
-        put("Duck", 40);
+        put("Boar", 50);
+        put("Buffalo", 30);
+        put("Duck", 15);
     }};
 
     private static final Map<String, Integer> BOA_FOOD = new HashMap<>() {{
         put("Fox", 15);
         put("Rabbit", 20);
-        put("Mouse", 40);
+        put("Mouse", 30);
         put("Duck", 10);
+        put("Horse", 50);
     }};
 
     private static final Map<String, Integer> FOX_FOOD = new HashMap<>() {{
-        put("Rabbit", 70);
-        put("Mouse", 90);
+        put("Boar", 75);
+        put("Rabbit", 50);
+        put("Mouse", 40);
         put("Duck", 60);
         put("Caterpillar", 40);
     }};
 
     private static final Map<String, Integer> BEAR_FOOD = new HashMap<>() {{
         put("Boa", 80);
-        put("Horse", 40);
+        put("Horse", 70);
         put("Deer", 80);
         put("Rabbit", 80);
-        put("Mouse", 90);
+        put("Mouse", 50);
         put("Goat", 70);
         put("Sheep", 70);
         put("Boar", 50);
@@ -83,7 +85,7 @@ public class Settings {
     private static final Map<String, Integer> EAGLE_FOOD = new HashMap<>() {{
         put("Fox", 10);
         put("Rabbit", 90);
-        put("Mouse", 90);
+        put("Mouse", 50);
         put("Duck", 80);
     }};
 
@@ -100,8 +102,8 @@ public class Settings {
     }};
 
     private static final Map<String, Integer> MOUSE_FOOD = new HashMap<>() {{
-        put("Caterpillar", 90);
-        put("Plant", 100);
+        put("Caterpillar", 80);
+        put("Plant", 80);
     }};
 
     private static final Map<String, Integer> GOAT_FOOD = new HashMap<>() {{
@@ -113,9 +115,9 @@ public class Settings {
     }};
 
     private static final Map<String, Integer> BOAR_FOOD = new HashMap<>() {{
-        put("Mouse", 50);
-        put("Caterpillar", 90);
-        put("Plant", 100);
+        put("Mouse", 20);
+        put("Caterpillar", 50);
+        put("Plant", 70);
     }};
 
     private static final Map<String, Integer> BUFFALO_FOOD = new HashMap<>() {{
@@ -123,7 +125,7 @@ public class Settings {
     }};
 
     private static final Map<String, Integer> DUCK_FOOD = new HashMap<>() {{
-        put("Caterpillar", 90);
+        put("Caterpillar", 100);
         put("Plant", 100);
     }};
 
@@ -137,10 +139,10 @@ public class Settings {
         put("Fox", new AnimalCharacteristics(4, 30, 2, 2, FOX_FOOD, "\uD83E\uDD8A"));
         put("Bear", new AnimalCharacteristics(40, 5, 2, 70, BEAR_FOOD, "\uD83D\uDC3B"));
         put("Eagle", new AnimalCharacteristics(2, 20, 3, 10, EAGLE_FOOD, "\uD83E\uDD85"));
-        put("Horse", new AnimalCharacteristics(20, 20, 4, 30, HORSE_FOOD, "\uD83D\uDC34"));
+        put("Horse", new AnimalCharacteristics(20, 20, 4, 50, HORSE_FOOD, "\uD83D\uDC34"));
         put("Deer", new AnimalCharacteristics(30, 20, 4, 25, DEER_FOOD, "\uD83E\uDECE"));
-        put("Rabbit", new AnimalCharacteristics(5, 20, 2, 2, RABBIT_FOOD, "\uD83D\uDC30"));
-        put("Mouse", new AnimalCharacteristics(1, 10, 1, 2, MOUSE_FOOD, "\uD83D\uDC01"));
+        put("Rabbit", new AnimalCharacteristics(5, 20, 2, 3, RABBIT_FOOD, "\uD83D\uDC30"));
+        put("Mouse", new AnimalCharacteristics(1, 15, 1, 3, MOUSE_FOOD, "\uD83D\uDC01"));
         put("Goat", new AnimalCharacteristics(20, 60, 3, 30, GOAT_FOOD, "\uD83D\uDC10"));
         put("Sheep", new AnimalCharacteristics(20, 60, 3, 15, SHEEP_FOOD, "\uD83D\uDC0F"));
         put("Boar", new AnimalCharacteristics(30, 50, 2, 20, BOAR_FOOD, "\uD83D\uDC17"));

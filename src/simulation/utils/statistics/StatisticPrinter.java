@@ -1,4 +1,4 @@
-package simulation.utils;
+package simulation.utils.statistics;
 
 import simulation.island.Island;
 

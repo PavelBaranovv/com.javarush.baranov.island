@@ -2,8 +2,9 @@ package simulation;
 
 import simulation.island.Island;
 import simulation.utils.Settings;
-import simulation.utils.StatisticPrinter;
-import simulation.utils.Statistics;
+import simulation.utils.statistics.IslandRenderer;
+import simulation.utils.statistics.StatisticPrinter;
+import simulation.utils.statistics.Statistics;
 
 import java.util.Map;
 import java.util.concurrent.*;
@@ -75,5 +76,12 @@ public class Simulation {
     private void stopSimulation() {
         System.out.println("Симуляция завершена");
         scheduler.shutdown();
+
+        System.out.println();
+        System.out.println("Остров:");
+        System.out.println("(показана заполненность каждой локации растениями и животными,");
+        System.out.println("стикер обозначчает вид, которого в локации больше всего)");
+        IslandRenderer renderer = new IslandRenderer(island);
+        renderer.drawIsland();
     }
 }

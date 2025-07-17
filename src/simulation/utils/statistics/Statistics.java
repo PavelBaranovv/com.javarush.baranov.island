@@ -1,4 +1,4 @@
-package simulation.utils;
+package simulation.utils.statistics;
 
 import simulation.entities.Animal;
 import simulation.entities.Entity;
