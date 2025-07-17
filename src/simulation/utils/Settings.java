@@ -34,7 +34,7 @@ public class Settings {
     public static final int MIN_ANIMALS_COUNT = 10;          // Если осталось слишком мало животных
     public static final int MIN_HERBIVOROUS_COUNT = 10;      // Если осталось слишком мало травоядных
     public static final int MIN_PREDATORS_COUNT = 10;        // Если осталось слишком мало хищников
-    public static final int MAX_SIMULATION_DURATION = 1000;  // Если симуляция продлилась не менее чем n дней
+    public static final int MAX_SIMULATION_DURATION = 150;  // Если симуляция продлилась не менее чем n дней
     public static final int MAX_EXTINCT_ANIMALS = 5;         // Если исчезло не менее n видов животных
 
     // ========== ХАРАКТЕРИСТИКИ СУЩНОСТЕЙ: =========

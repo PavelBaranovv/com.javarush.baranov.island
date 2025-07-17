@@ -60,7 +60,10 @@ public class Location {
         for (Entity e : entities) {
             if (e instanceof Animal animal) {
                 Map<String, Integer> animalFood = animal.getFood();
-                List<Entity> potentialFood = entities.stream().filter((entity) -> entity.isAlive() && animalFood.containsKey(entity.getClass().getSimpleName())).collect(Collectors.toList());
+                List<Entity> potentialFood = entities.stream()
+                        .filter((entity) ->
+                                entity.isAlive() && animalFood.containsKey(entity.getClass().getSimpleName()))
+                        .collect(Collectors.toList());
 
                 while (!animal.isFull() && !potentialFood.isEmpty()) {
                     Entity victim = MyRandom.chooseRandomElement(potentialFood);
@@ -76,7 +79,11 @@ public class Location {
     }
 
     public void reproducingTick() {
-        Map<String, Long> readyToReproduce = entities.stream().filter(e -> e instanceof Animal && e.isAlive() && ((Animal) e).isReadyToReproduce()).map(e -> e.getClass().getSimpleName()).collect(Collectors.groupingBy((x) -> x, Collectors.counting()));
+        Map<String, Long> readyToReproduce = entities.stream()
+                .filter(e -> e instanceof Animal && e.isAlive() && ((Animal) e).isReadyToReproduce())
+                .map(e -> e.getClass().getSimpleName())
+                .collect(Collectors.groupingBy((x) -> x, Collectors.counting()));
+
         AnimalFactory factory = new AnimalFactory();
         for (Map.Entry<String, Long> entry : readyToReproduce.entrySet()) {
             if (entry.getValue() >= 2) {
@@ -85,7 +92,8 @@ public class Location {
                     if (availableAnimalCapacity.get() < animal.getSize()) {
                         break;
                     }
-                    if (animal instanceof Predator && MyRandom.eventExecution(Settings.PREDATORS_REPRODUCE_CHANCE) || animal instanceof Herbivorous && MyRandom.eventExecution(Settings.HERBIVOROUS_REPRODUCE_CHANCE)) {
+                    if (animal instanceof Predator && MyRandom.eventExecution(Settings.PREDATORS_REPRODUCE_CHANCE) ||
+                            animal instanceof Herbivorous && MyRandom.eventExecution(Settings.HERBIVOROUS_REPRODUCE_CHANCE)) {
                         addAnimal(animal);
                         Statistics.getInstance().addBirth(animal);
                     }
@@ -103,7 +111,11 @@ public class Location {
     }
 
     public List<Animal> getAnimalsReadyToMove() {
-        return entities.stream().filter(e -> e instanceof Animal && e.isAlive() && MyRandom.eventExecution(Settings.MOVE_CHANCE)).map(e -> (Animal) e).filter(Animal::isReadyToMove).collect(Collectors.toList());
+        return entities.stream()
+                .filter(e -> e instanceof Animal && e.isAlive() && MyRandom.eventExecution(Settings.MOVE_CHANCE))
+                .map(e -> (Animal) e)
+                .filter(Animal::isReadyToMove)
+                .collect(Collectors.toList());
     }
 
     public synchronized boolean tryAddAnimal(Animal animal) {
