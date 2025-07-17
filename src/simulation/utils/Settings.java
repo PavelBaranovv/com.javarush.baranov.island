@@ -15,7 +15,7 @@ public class Settings {
 
     public static final int MIN_START_SATURATION = 75;          // Мин насыщение животного при рождении (0% - 100%)
     public static final int START_ANIMAL_FULLNESS = 20;         // Заполненность животными в начале симуляции (0% - 100%)
-    public static final int START_PLANT_FULLNESS = 20;          // Заполненность растениями в начале симуляции (0% - 100%)
+    public static final int START_PLANT_FULLNESS = 100;          // Заполненность растениями в начале симуляции (0% - 100%)
 
     public static final int PREDATORS_REPRODUCE_CHANCE = 10;     // Шанс хищника размножится (при наличии партнера)
     public static final int HERBIVOROUS_REPRODUCE_CHANCE = 40;   // Шанс травоядного размножится (при наличии партнера)
@@ -24,8 +24,8 @@ public class Settings {
     public static final int MOVE_TIRED = 4;                      // Насколько животное устает за одно перемещение
     public static final int REPRODUCE_SATURATION = 90;           // Насколько сытым должно быть животное для размножения (0% - 100%)
 
-    public static final int MIN_DAY_GROWING_COUNT = 5;           // Минимальный прирост растений в одной локации за 1 день
-    public static final int MAX_DAY_GROWING_COUNT = 20;           // Максимальный прирост растений в одной локации за 1 день
+    public static final int MIN_DAY_GROWING_COUNT = 30;           // Минимальный прирост растений в одной локации за 1 день
+    public static final int MAX_DAY_GROWING_COUNT = 50;           // Максимальный прирост растений в одной локации за 1 день
 
     public static final int DAILY_HUNGER_AMOUNT = 1;              // Сколько единиц сытости животное теряет за день
     public static final int DAILY_HUNGER_CHANCE = 40;             // и с какой вероятностью

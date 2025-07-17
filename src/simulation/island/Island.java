@@ -35,7 +35,7 @@ public class Island {
     public Island(int width, int height, int animalFullness, int plantsFullness) {
         this(width, height);
         spawnRandomAnimals(animalFullness);
-        growPlants(plantsFullness);
+        fillPlants(plantsFullness);
     }
 
 
@@ -56,12 +56,12 @@ public class Island {
         }
     }
 
-    public void growPlants(int maxCount) {
+    public void fillPlants(int fullness) {
         List<Callable<Void>> tasks = new ArrayList<>();
         for (Location[] row : locations) {
             for (Location location : row) {
                 tasks.add(() -> {
-                    location.growPlants(maxCount);
+                    location.fillPlants(fullness);
                     return null;
                 });
             }
@@ -178,7 +178,6 @@ public class Island {
                 });
             }
         }
-
         try {
             fixedTP.invokeAll(tasks);
         } catch (InterruptedException e) {

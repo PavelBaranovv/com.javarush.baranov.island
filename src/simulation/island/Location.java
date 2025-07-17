@@ -42,16 +42,10 @@ public class Location {
         }
     }
 
-    public void growPlants(int fullness) {
+    public void fillPlants(int fullness) {
         if (fullness < 0) throw new IllegalArgumentException("Fullness must be positive");
-        PlantFactory factory = new PlantFactory();
         int count = availablePlantCapacity.get() * fullness / 100;
-        for (int i = 0; i < count; i++) {
-            Plant plant = factory.producePlant();
-            entities.add(plant);
-            availablePlantCapacity.addAndGet(-plant.getSize());
-            Statistics.getInstance().addPlant();
-        }
+        growPlants(count);
     }
 
     public void randomPlantsGrow(int minCount, int maxCount) {
@@ -71,7 +65,7 @@ public class Location {
                 while (!animal.isFull() && !potentialFood.isEmpty()) {
                     Entity victim = MyRandom.chooseRandomElement(potentialFood);
                     int probability = animalFood.get(victim.getClass().getSimpleName());
-                    if (MyRandom.eventExecution(probability)) {
+                    if (MyRandom.eventExecution(probability) && victim.isAlive()) {
                         animal.eat(victim);
                         potentialFood.remove(victim);
                         Statistics.getInstance().addEating(victim);
@@ -82,10 +76,7 @@ public class Location {
     }
 
     public void reproducingTick() {
-        Map<String, Long> readyToReproduce = entities.stream()
-                .filter(e -> e instanceof Animal && e.isAlive() && ((Animal) e).isReadyToReproduce())
-                .map(e -> e.getClass().getSimpleName())
-                .collect(Collectors.groupingBy((x) -> x, Collectors.counting()));
+        Map<String, Long> readyToReproduce = entities.stream().filter(e -> e instanceof Animal && e.isAlive() && ((Animal) e).isReadyToReproduce()).map(e -> e.getClass().getSimpleName()).collect(Collectors.groupingBy((x) -> x, Collectors.counting()));
         AnimalFactory factory = new AnimalFactory();
         for (Map.Entry<String, Long> entry : readyToReproduce.entrySet()) {
             if (entry.getValue() >= 2) {
@@ -112,11 +103,7 @@ public class Location {
     }
 
     public List<Animal> getAnimalsReadyToMove() {
-        return entities.stream()
-                .filter(e -> e instanceof Animal && e.isAlive() && MyRandom.eventExecution(Settings.MOVE_CHANCE))
-                .map(e -> (Animal) e)
-                .filter(Animal::isReadyToMove)
-                .collect(Collectors.toList());
+        return entities.stream().filter(e -> e instanceof Animal && e.isAlive() && MyRandom.eventExecution(Settings.MOVE_CHANCE)).map(e -> (Animal) e).filter(Animal::isReadyToMove).collect(Collectors.toList());
     }
 
     public synchronized boolean tryAddAnimal(Animal animal) {
@@ -173,9 +160,19 @@ public class Location {
                 .map(e -> e.getClass().getSimpleName())
                 .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
 
-        return animalCounts.entrySet().stream()
-                .max(Map.Entry.comparingByValue())
-                .map(Map.Entry::getKey);
+        return animalCounts.entrySet().stream().max(Map.Entry.comparingByValue()).map(Map.Entry::getKey);
+    }
+
+    private void growPlants(int count) {
+        if (count < 0) throw new IllegalArgumentException("Count must be positive");
+        PlantFactory factory = new PlantFactory();
+        int realCount = Math.min(count, availablePlantCapacity.get() / Settings.PLANT_SIZE);
+        for (int i = 0; i < realCount; i++) {
+            Plant plant = factory.producePlant();
+            entities.add(plant);
+            availablePlantCapacity.addAndGet(-plant.getSize());
+            Statistics.getInstance().addPlant();
+        }
     }
 
     private void incrementCapacity(Entity e) {
